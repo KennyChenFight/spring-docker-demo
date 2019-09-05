@@ -20,9 +20,10 @@ services:
     depends_on:
       - db
   web:
-    container_name: 'springboot'
+    container_name: 'spring-docker-demo'
     build: ./
-    command: ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    image: spring-docker-jar:latest
+    entrypoint: ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     restart: always
     ports:
       - "8080:8080"
