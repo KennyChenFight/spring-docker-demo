@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  dbGUI:
+    container_name: 'pgadmin'
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "kenny@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "kenny"
+    ports:
+      - "16543:80"
+    depends_on:
+      - db
+  web:
+    container_name: 'springboot'
+    build: ./
+    command: ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes:
+  api_data:
